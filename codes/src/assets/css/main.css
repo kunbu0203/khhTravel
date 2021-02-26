@@ -16,3 +16,17 @@ ul {
     padding: 0;
     list-style: none;
 }
+
+.footer {
+    padding: 24px 0;
+    font-size: 14px;
+    text-align: center;
+    background-color: #559AC8;
+}
+.footer-title {
+    color: #fff;
+}
+.footer-source {
+    margin-top: 15px;
+    color: #FFD366;
+}
