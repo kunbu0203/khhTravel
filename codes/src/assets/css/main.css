@@ -1,0 +1,18 @@
+html,
+body {
+    font-family: "Microsoft JhengHei", "PingFangTC-Regular", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
