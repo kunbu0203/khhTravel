@@ -17,6 +17,246 @@ ul {
     list-style: none;
 }
 
+.head {
+    padding: 89px 0 107px;
+    background-image: url(./../images/head.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.head-title {
+    margin: 0;
+    color: #fff;
+    text-align: center;
+}
+.head-search {
+    margin-top: 96px;
+    text-align: center;
+}
+
+.search-box {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 452px;
+    padding: 9px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 3px solid #FFFFFF;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.7);
+    outline: none;
+}
+
+.main {
+    background-color: #f7f7f7;
+    padding: 0 40px;
+}
+
+.hotBox {
+    position: relative;
+    top: -28px;
+    left: auto;
+    box-sizing: border-box;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px 26px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    background: #FFFFFF;
+}
+.hotBox-title {
+    font-size: 18px;
+}
+.hotBox-content {
+    display: flex;
+    margin-top: 14px;
+}
+
+.hotBtn {
+    box-sizing: border-box;
+    width: 130px;
+    margin-left: 24px;
+    padding: 10px;
+    text-align: center;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+.hotBtn.pl {
+    background-color: #8A82CC;
+}
+.hotBtn.rd {
+    background-color: #FFA782;
+}
+.hotBtn.yl {
+    background-color: #F5D005;
+}
+.hotBtn.bu {
+    background-color: #559AC8;
+}
+
+.dividingLine {
+    position: relative;
+    max-width: 900px;
+    margin: 12px auto 12px;
+    border: 1px dashed #559AC8;
+}
+.dividingLine-icon {
+    position: relative;
+}
+.dividingLine-icon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #559AC8;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+}
+.dividingLine-icon::after {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 7.5px 0 7.5px;
+    border-color: #559ac8 transparent transparent transparent;
+}
+
+.areaInfo {
+    max-width: 944px;
+    margin: auto;
+    margin-top: 24px;
+    padding: 40px 0;
+}
+.areaInfo-title {
+    font-size: 36px;
+    text-align: center;
+    color: #8A82CC;
+}
+.areaInfo-content {
+    font-size: 0;
+    margin-top: 24px;
+}
+.areaInfo-pages {
+    margin-top: 44px;
+}
+
+.card {
+    display: inline-block;
+    width: calc((100% - 16px) /2);
+    font-size: 16px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    background-color: #FFFFFF;
+}
+.card:nth-of-type(even) {
+    margin-left: 16px;
+}
+.card-img {
+    position: relative;
+    height: 155px;
+    overflow: hidden;
+}
+.card-img img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+.card-head {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    padding: 14px 24px;
+    color: #FFFFFF;
+    background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.54) 100%);
+}
+.card-name {
+    font-size: 24px;
+}
+.card-content {
+    position: relative;
+    box-sizing: border-box;
+    padding: 20px 24px;
+}
+.card-info + .card-info {
+    margin-top: 12px;
+}
+.card-info + .card-info.tag {
+    margin-top: 0;
+}
+
+.time::before,
+.address::before,
+.phone::before,
+.tag::before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    margin-top: -3px;
+    margin-right: 6px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.time::before {
+    background-image: url(./../images/icons_clock.png);
+}
+
+.address::before {
+    background-image: url(./../images/icons_pin.png);
+}
+
+.phone {
+    padding-right: 110px;
+}
+.phone::before {
+    background-image: url(./../images/icons_phone.png);
+}
+
+.tag {
+    position: absolute;
+    bottom: 20px;
+    left: 346px;
+}
+.tag::before {
+    background-image: url(./../images/icons_tag.png);
+}
+
+.pageBtn {
+    font-size: 14px;
+    text-align: center;
+}
+.pageBtn-link {
+    padding: 8px 5px;
+    color: #4A4A4A;
+}
+.pageBtn-link + .pageBtn-link {
+    margin-left: 8px;
+}
+.pageBtn-link.prev {
+    margin-right: 8px;
+}
+.pageBtn-link.next {
+    margin-left: 16px;
+}
+.pageBtn-link.active {
+    color: #559AC8;
+}
+
 .footer {
     padding: 24px 0;
     font-size: 14px;

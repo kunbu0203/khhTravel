@@ -1,0 +1,20 @@
+.head {
+    padding: 89px 0 107px;
+
+    background: {
+        image: url(./../images/head.png);
+        repeat: no-repeat;
+        size: cover;
+    }
+
+    &-title {
+        margin: 0;
+        color: #fff;
+        text-align: center;
+    }
+
+    &-search {
+        margin-top: 96px;
+        text-align: center;
+    }
+}
