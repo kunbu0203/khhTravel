@@ -9,14 +9,15 @@ xhr.onload = function (){
     var obj = JSON.parse(xhr.responseText);
     var data = obj.data.XML_Head.Infos.Info;
 
-    filterData(data);
+    putData(data);
 
 
     // 下拉篩選行政區 START
     var searchBox = document.querySelector('#searchBox');
 
     searchBox.addEventListener('change', function (e){
-        filterData(data, this.value);
+        var filteredData = filterData(data, this.value);
+        putData(filteredData);
     }, false);
     // 下拉篩選行政區 END
 
@@ -24,10 +25,11 @@ xhr.onload = function (){
     // 熱門按鈕篩選 START
     var hotBtn = document.querySelectorAll('.hotBtn');
 
-    hotBtn.forEach(function (el){
-        el.addEventListener('click', function (e){
+    hotBtn.forEach(function (item){
+        item.addEventListener('click', function (e){
             e.preventDefault();
-            filterData(data, this.dataset.area);
+            var filteredData = filterData(data, this.dataset.area);
+            putData(filteredData);
         }, false);
     });
     // 熱門按鈕篩選 END
@@ -117,25 +119,34 @@ function zipcode(code){
 }
 
 function filterData(data, val) {
+    if (!val) {
+        return data;
+    } else {
+        var filteredData = data.filter(function (item){
+            return item.Zipcode === val
+        });
+    
+        return filteredData;
+    }
+}
+
+function putData(data) {
     contentBox.innerHTML = '';
 
     for (var i = 0; i < data.length; i++) {
         var el = data[i];
-
-        if (val === el.Zipcode || !val){
-            var cardClone = card.cloneNode(true);
-    
-            cardClone.querySelector('#cardImg').src = el.Picture1;
-            cardClone.querySelector('#cardName').textContent = el.Name;
-            cardClone.querySelector('#cardArea').textContent = zipcode(el.Zipcode);
-            cardClone.querySelector('#infoTime').textContent = el.Opentime;
-            cardClone.querySelector('#infoAddress').textContent = el.Add;
-            cardClone.querySelector('#infoPhone').textContent = el.Tel;
-            if (!el.Ticketinfo){
-                cardClone.querySelector('#infoTag').textContent = '免費參觀';
-            }
-
-            contentBox.appendChild(cardClone);
+        var cardClone = card.cloneNode(true);
+        
+        cardClone.querySelector('#cardImg').src = el.Picture1;
+        cardClone.querySelector('#cardName').textContent = el.Name;
+        cardClone.querySelector('#cardArea').textContent = zipcode(el.Zipcode);
+        cardClone.querySelector('#infoTime').textContent = el.Opentime;
+        cardClone.querySelector('#infoAddress').textContent = el.Add;
+        cardClone.querySelector('#infoPhone').textContent = el.Tel;
+        if (!el.Ticketinfo){
+            cardClone.querySelector('#infoTag').textContent = '免費參觀';
         }
+        
+        contentBox.appendChild(cardClone);
     }
 }
