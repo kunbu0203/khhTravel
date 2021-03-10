@@ -118,7 +118,7 @@
 
     &-content {
         font-size: 0;
-        margin-top: 24px;
+        margin-top: -12px;
     }
 
     &-pages {
@@ -128,7 +128,9 @@
 
 .card {
     display: inline-block;
+    vertical-align: top;
     width: calc((100% - 16px) /2);
+    margin-top: 36px;
     font-size: 16px;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
     background-color: #FFFFFF;
@@ -137,21 +139,21 @@
         margin-left: 16px;
     }
 
-    &-img {
+    &-head {
         position: relative;
         height: 155px;
         overflow: hidden;
-
-        img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-        }
     }
 
-    &-head {
+    &-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+
+    &-title {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -167,6 +169,12 @@
 
     &-name {
         font-size: 24px;
+        line-height: 1.2;
+        flex: 0 1 auto;
+    }
+
+    &-area {
+        flex: 0 0 auto;
     }
 
     &-content {
@@ -174,12 +182,14 @@
         box-sizing: border-box;
         padding: 20px 24px;
     }
+}
 
-    &-info+&-info {
+.info {
+    &+& {
         margin-top: 12px;
     }
 
-    &-info+&-info.tag {
+    &.tag {
         margin-top: 0;
     }
 }
@@ -188,14 +198,18 @@
 .address,
 .phone,
 .tag {
+    position: relative;
+    min-height: 24px;
+    padding-left: 24px;
+
     &::before {
         content: '';
-        display: inline-block;
-        vertical-align: middle;
+        position: absolute;
+        top: 2px;
+        left: 0;
+        display: block;
         width: 20px;
         height: 20px;
-        margin-top: -3px;
-        margin-right: 6px;
         background-repeat: no-repeat;
         background-position: center;
     }
@@ -224,7 +238,9 @@
 .tag {
     position: absolute;
     bottom: 20px;
-    left: 346px;
+    right: 24px;
+    box-sizing: border-box;
+    width: 90px;
 
     &::before {
         background-image: url(./../images/icons_tag.png);

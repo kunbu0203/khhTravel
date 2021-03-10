@@ -141,7 +141,7 @@ ul {
 }
 .areaInfo-content {
     font-size: 0;
-    margin-top: 24px;
+    margin-top: -12px;
 }
 .areaInfo-pages {
     margin-top: 44px;
@@ -149,7 +149,9 @@ ul {
 
 .card {
     display: inline-block;
+    vertical-align: top;
     width: calc((100% - 16px) /2);
+    margin-top: 36px;
     font-size: 16px;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
     background-color: #FFFFFF;
@@ -157,19 +159,19 @@ ul {
 .card:nth-of-type(even) {
     margin-left: 16px;
 }
-.card-img {
+.card-head {
     position: relative;
     height: 155px;
     overflow: hidden;
 }
-.card-img img {
+.card-img {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
 }
-.card-head {
+.card-title {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -184,30 +186,44 @@ ul {
 }
 .card-name {
     font-size: 24px;
+    line-height: 1.2;
+    flex: 0 1 auto;
+}
+.card-area {
+    flex: 0 0 auto;
 }
 .card-content {
     position: relative;
     box-sizing: border-box;
     padding: 20px 24px;
 }
-.card-info + .card-info {
+
+.info + .info {
     margin-top: 12px;
 }
-.card-info + .card-info.tag {
+.info.tag {
     margin-top: 0;
 }
 
+.time,
+.address,
+.phone,
+.tag {
+    position: relative;
+    min-height: 24px;
+    padding-left: 24px;
+}
 .time::before,
 .address::before,
 .phone::before,
 .tag::before {
     content: "";
-    display: inline-block;
-    vertical-align: middle;
+    position: absolute;
+    top: 2px;
+    left: 0;
+    display: block;
     width: 20px;
     height: 20px;
-    margin-top: -3px;
-    margin-right: 6px;
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -230,7 +246,9 @@ ul {
 .tag {
     position: absolute;
     bottom: 20px;
-    left: 346px;
+    right: 24px;
+    box-sizing: border-box;
+    width: 90px;
 }
 .tag::before {
     background-image: url(./../images/icons_tag.png);
