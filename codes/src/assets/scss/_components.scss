@@ -259,16 +259,13 @@
             margin-left: 8px;
         }
 
-        &.prev {
-            margin-right: 8px;
-        }
-
-        &.next {
-            margin-left: 16px;
-        }
-
         &.active {
             color: #559AC8;
         }
+    }
+
+    &-num {
+        display: inline-block;
+        margin: 0 12px;
     }
 }

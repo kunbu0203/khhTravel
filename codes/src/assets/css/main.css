@@ -265,14 +265,12 @@ ul {
 .pageBtn-link + .pageBtn-link {
     margin-left: 8px;
 }
-.pageBtn-link.prev {
-    margin-right: 8px;
-}
-.pageBtn-link.next {
-    margin-left: 16px;
-}
 .pageBtn-link.active {
     color: #559AC8;
+}
+.pageBtn-num {
+    display: inline-block;
+    margin: 0 12px;
 }
 
 .footer {

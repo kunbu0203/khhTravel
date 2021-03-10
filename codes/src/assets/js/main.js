@@ -1,6 +1,8 @@
 var xhr = new XMLHttpRequest();
 var card = document.querySelector('#card'),
     contentBox = document.querySelector('#cardBox');
+var numBtnBox = document.querySelector('#numBtnBox'),
+    numBtn = document.querySelector('#numBtn');
 
 xhr.open('get', 'https://api.kcg.gov.tw/api/service/get/9c8e1450-e833-499c-8320-29b36b7ace5c', true)
 xhr.send(null)
@@ -132,9 +134,13 @@ function filterData(data, val) {
 
 function putData(data) {
     contentBox.innerHTML = '';
+    upDatePageBtn(data);
+    var start = 0,
+        end = 10;
+    var pageData = data.slice(start, end);
 
-    for (var i = 0; i < data.length; i++) {
-        var el = data[i];
+    for (var i = 0; i < pageData.length; i++) {
+        var el = pageData[i];
         var cardClone = card.cloneNode(true);
         
         cardClone.querySelector('#cardImg').src = el.Picture1;
@@ -149,4 +155,21 @@ function putData(data) {
         
         contentBox.appendChild(cardClone);
     }
+}
+
+function upDatePageBtn(data) {
+    numBtnBox.innerHTML = '';
+    var pages = data.length / 10;
+
+    for (var i = 0; i < pages; i++) {
+        var numBtnClone = numBtn.cloneNode(true);
+
+        numBtnClone.textContent = i+1;
+
+        numBtnBox.appendChild(numBtnClone);
+    }
+}
+
+function upDatePageCard() {
+    
 }
