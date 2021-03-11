@@ -2,7 +2,12 @@ var xhr = new XMLHttpRequest();
 var card = document.querySelector('#card'),
     contentBox = document.querySelector('#cardBox');
 var numBtnBox = document.querySelector('#numBtnBox'),
-    numBtn = document.querySelector('#numBtn');
+    numBtn = document.querySelector('.pageBtn-num');
+var prevBtn = document.querySelector('.pageBtn-prev'),
+    nextBtn = document.querySelector('.pageBtn-next');
+var url = location.href,
+    num = Number(url.split('?')[1].split('=')[1]);
+
 
 xhr.open('get', 'https://api.kcg.gov.tw/api/service/get/9c8e1450-e833-499c-8320-29b36b7ace5c', true)
 xhr.send(null)
@@ -11,7 +16,7 @@ xhr.onload = function (){
     var obj = JSON.parse(xhr.responseText);
     var data = obj.data.XML_Head.Infos.Info;
 
-    putData(data);
+    putData(data, num);
 
 
     // 下拉篩選行政區 START
@@ -19,7 +24,7 @@ xhr.onload = function (){
 
     searchBox.addEventListener('change', function (e){
         var filteredData = filterData(data, this.value);
-        putData(filteredData);
+        putData(filteredData, num);
     }, false);
     // 下拉篩選行政區 END
 
@@ -31,10 +36,23 @@ xhr.onload = function (){
         item.addEventListener('click', function (e){
             e.preventDefault();
             var filteredData = filterData(data, this.dataset.area);
-            putData(filteredData);
+            putData(filteredData, num);
         }, false);
     });
     // 熱門按鈕篩選 END
+
+
+    // 前後頁切換 START
+    prevBtn.addEventListener('click', function (e){
+        e.preventDefault();
+        location.href = '?page='+(num - 1);
+    }, false);
+
+    nextBtn.addEventListener('click', function (e){
+        e.preventDefault();
+        location.href = '?page='+(num + 1);
+    }, false);
+    // 前後頁切換 END
 }
 
 function zipcode(code){
@@ -132,12 +150,11 @@ function filterData(data, val) {
     }
 }
 
-function putData(data) {
+function putData(data, num) {
     contentBox.innerHTML = '';
-    upDatePageBtn(data);
-    var start = 0,
-        end = 10;
-    var pageData = data.slice(start, end);
+
+    upDatePageBtn(data, num);
+    var pageData = upDatePageCard(data, num);
 
     for (var i = 0; i < pageData.length; i++) {
         var el = pageData[i];
@@ -157,19 +174,40 @@ function putData(data) {
     }
 }
 
-function upDatePageBtn(data) {
+function upDatePageBtn(data, num) {
     numBtnBox.innerHTML = '';
-    var pages = data.length / 10;
 
-    for (var i = 0; i < pages; i++) {
+    var len = data.length / 10;
+    var start = (num >= 3) ? (num - 1 - 2) : (num - num),
+        end = ((start + 5) <= len) ? (start + 5) : len;
+    console.log(len)
+
+    for (var i = start; i < end; i++) {
         var numBtnClone = numBtn.cloneNode(true);
 
         numBtnClone.textContent = i+1;
+        numBtnClone.href = '?page='+(i+1);
 
         numBtnBox.appendChild(numBtnClone);
     }
+
+    var numBtns = document.querySelectorAll('.pageBtn-num');
+
+    numBtns.forEach(function (item){
+        if (Number(item.textContent) === num){
+            item.classList.add('active');
+        }
+    });
+
+    if (num === 1) {
+        prevBtn.classList.add('disabled');
+    } else if (num >= len) {
+        nextBtn.classList.add('disabled');
+    }
 }
 
-function upDatePageCard() {
-    
+function upDatePageCard(data, num) {
+    var start = num * 10 - 10,
+        end = num * 10;
+    return data.slice(start, end);
 }

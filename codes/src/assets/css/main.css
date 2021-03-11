@@ -258,18 +258,29 @@ ul {
     font-size: 14px;
     text-align: center;
 }
-.pageBtn-link {
+.pageBtn-prev, .pageBtn-next, .pageBtn-num {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 26px;
     padding: 8px 5px;
     color: #4A4A4A;
 }
-.pageBtn-link + .pageBtn-link {
+.pageBtn-prev + .pageBtn-prev, .pageBtn-prev + .pageBtn-next, .pageBtn-prev + .pageBtn-num, .pageBtn-next + .pageBtn-prev, .pageBtn-next + .pageBtn-next, .pageBtn-next + .pageBtn-num, .pageBtn-num + .pageBtn-prev, .pageBtn-num + .pageBtn-next, .pageBtn-num + .pageBtn-num {
     margin-left: 8px;
 }
-.pageBtn-link.active {
+.pageBtn-prev:hover, .pageBtn-next:hover, .pageBtn-num:hover {
+    text-decoration: underline;
+}
+.pageBtn-prev.active, .pageBtn-next.active, .pageBtn-num.active {
     color: #559AC8;
 }
-.pageBtn-num {
+.pageBtn-prev.disabled, .pageBtn-next.disabled, .pageBtn-num.disabled {
+    opacity: 0;
+    pointer-events: none;
+}
+.pageBtn-numBox {
     display: inline-block;
+    min-width: 163px;
     margin: 0 12px;
 }
 

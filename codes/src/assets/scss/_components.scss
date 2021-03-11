@@ -251,7 +251,12 @@
     font-size: 14px;
     text-align: center;
 
-    &-link {
+    &-prev,
+    &-next,
+    &-num {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 26px;
         padding: 8px 5px;
         color: #4A4A4A;
 
@@ -259,13 +264,23 @@
             margin-left: 8px;
         }
 
+        &:hover {
+            text-decoration: underline;
+        }
+
         &.active {
             color: #559AC8;
         }
+
+        &.disabled {
+            opacity: 0;
+            pointer-events: none;
+        }
     }
 
-    &-num {
+    &-numBox {
         display: inline-block;
+        min-width: 163px;
         margin: 0 12px;
     }
 }
