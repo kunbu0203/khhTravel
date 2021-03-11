@@ -6,7 +6,35 @@ var numBtnBox = document.querySelector('#numBtnBox'),
 var prevBtn = document.querySelector('.pageBtn-prev'),
     nextBtn = document.querySelector('.pageBtn-next');
 var url = location.href,
-    num = Number(url.split('?')[1].split('=')[1]);
+    num = 1,
+    val = '';
+
+if (url.indexOf('?') != -1) {
+    var arr = url.split('?');
+
+    if (arr[1].indexOf('&') != -1){
+        var arr1 = arr[1].split('&');
+
+        arr1.forEach(function (item){
+            var arr2 = item.split('=');
+            if (arr2[0] === 'page'){
+                num = Number(arr2[1]);
+            } else if (arr2[0] === 'area') {
+                val = arr2[1];
+            }
+        });
+    } else {
+        var arr1 = arr[1].split('=');
+
+        if (arr1[0] === 'page'){
+            num = Number(arr1[1]);
+        } else if (arr1[0] === 'area') {
+            val = arr1[1];
+        }
+    }
+}
+
+console.log(num, val);
 
 
 xhr.open('get', 'https://api.kcg.gov.tw/api/service/get/9c8e1450-e833-499c-8320-29b36b7ace5c', true)
@@ -15,16 +43,19 @@ xhr.send(null)
 xhr.onload = function (){
     var obj = JSON.parse(xhr.responseText);
     var data = obj.data.XML_Head.Infos.Info;
+    var filteredData = filterData(data, val);
 
-    putData(data, num);
+    putData(filteredData, num);
 
 
     // 下拉篩選行政區 START
     var searchBox = document.querySelector('#searchBox');
 
     searchBox.addEventListener('change', function (e){
-        var filteredData = filterData(data, this.value);
-        putData(filteredData, num);
+        location.href = '?area=' + this.value;
+        // var filteredData = filterData(data, this.value);
+        // num = 1;
+        // putData(filteredData, num);
     }, false);
     // 下拉篩選行政區 END
 
@@ -35,8 +66,10 @@ xhr.onload = function (){
     hotBtn.forEach(function (item){
         item.addEventListener('click', function (e){
             e.preventDefault();
-            var filteredData = filterData(data, this.dataset.area);
-            putData(filteredData, num);
+            location.href = '?area=' + this.dataset.area;
+            // var filteredData = filterData(data, this.dataset.area);
+            // num = 1;
+            // putData(filteredData, num);
         }, false);
     });
     // 熱門按鈕篩選 END
@@ -180,7 +213,6 @@ function upDatePageBtn(data, num) {
     var len = data.length / 10;
     var start = (num >= 3) ? (num - 1 - 2) : (num - num),
         end = ((start + 5) <= len) ? (start + 5) : len;
-    console.log(len)
 
     for (var i = start; i < end; i++) {
         var numBtnClone = numBtn.cloneNode(true);
@@ -199,7 +231,10 @@ function upDatePageBtn(data, num) {
         }
     });
 
-    if (num === 1) {
+    if (len <= 1) {
+        prevBtn.classList.add('disabled');
+        nextBtn.classList.add('disabled');
+    } else if (num === 1) {
         prevBtn.classList.add('disabled');
     } else if (num >= len) {
         nextBtn.classList.add('disabled');
