@@ -1,4 +1,6 @@
 .search {
+    margin: 0 16px;
+
     &-box {
         box-sizing: border-box;
         width: 100%;
@@ -16,6 +18,10 @@
 .main {
     background-color: #f7f7f7;
     padding: 0 40px;
+
+    @media screen and (max-width:767px) {
+        padding: 0 16px;
+    }
 }
 
 .hotBox {
@@ -36,13 +42,20 @@
 
     &-content {
         display: flex;
-        margin-top: 14px;
+    }
+
+    @media screen and (max-width:767px) {
+        &-content {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
     }
 }
 
 .hotBtn {
     box-sizing: border-box;
-    width: 130px;
+    width: 120px;
+    margin-top: 14px;
     margin-left: 24px;
     padding: 10px;
     text-align: center;
@@ -63,6 +76,10 @@
 
     &.bu {
         background-color: #559AC8;
+    }
+
+    @media screen and (max-width:767px) {
+        margin-left: 16px;
     }
 }
 
@@ -182,6 +199,14 @@
         box-sizing: border-box;
         padding: 20px 24px;
     }
+
+    @media screen and (max-width:767px) {
+        width: 100%;
+
+        &:nth-of-type(even) {
+            margin-left: 0;
+        }
+    }
 }
 
 .info {
@@ -280,7 +305,6 @@
 
     &-numBox {
         display: inline-block;
-        min-width: 163px;
         margin: 0 12px;
     }
 }

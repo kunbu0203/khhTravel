@@ -33,6 +33,9 @@ ul {
     text-align: center;
 }
 
+.search {
+    margin: 0 16px;
+}
 .search-box {
     box-sizing: border-box;
     width: 100%;
@@ -49,6 +52,11 @@ ul {
 .main {
     background-color: #f7f7f7;
     padding: 0 40px;
+}
+@media screen and (max-width: 767px) {
+    .main {
+        padding: 0 16px;
+    }
 }
 
 .hotBox {
@@ -68,12 +76,18 @@ ul {
 }
 .hotBox-content {
     display: flex;
-    margin-top: 14px;
+}
+@media screen and (max-width: 767px) {
+    .hotBox-content {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 .hotBtn {
     box-sizing: border-box;
-    width: 130px;
+    width: 120px;
+    margin-top: 14px;
     margin-left: 24px;
     padding: 10px;
     text-align: center;
@@ -91,6 +105,11 @@ ul {
 }
 .hotBtn.bu {
     background-color: #559AC8;
+}
+@media screen and (max-width: 767px) {
+    .hotBtn {
+        margin-left: 16px;
+    }
 }
 
 .dividingLine {
@@ -197,6 +216,14 @@ ul {
     box-sizing: border-box;
     padding: 20px 24px;
 }
+@media screen and (max-width: 767px) {
+    .card {
+        width: 100%;
+    }
+    .card:nth-of-type(even) {
+        margin-left: 0;
+    }
+}
 
 .info + .info {
     margin-top: 12px;
@@ -280,7 +307,6 @@ ul {
 }
 .pageBtn-numBox {
     display: inline-block;
-    min-width: 163px;
     margin: 0 12px;
 }
 

@@ -1,14 +1,18 @@
 var xhr = new XMLHttpRequest();
 var card = document.querySelector('#card'),
     contentBox = document.querySelector('#cardBox');
+var title = document.querySelector('.areaInfo-title');
+var searchBox = document.querySelector('#searchBox'),
+    hotBtn = document.querySelectorAll('.hotBtn');
 var numBtnBox = document.querySelector('#numBtnBox'),
     numBtn = document.querySelector('.pageBtn-num');
 var prevBtn = document.querySelector('.pageBtn-prev'),
     nextBtn = document.querySelector('.pageBtn-next');
 var url = location.href,
-    num = 1,
-    val = '';
+    page = 1,
+    area = '';
 
+// 頁數與區域判斷 START
 if (url.indexOf('?') != -1) {
     var arr = url.split('?');
 
@@ -18,23 +22,22 @@ if (url.indexOf('?') != -1) {
         arr1.forEach(function (item){
             var arr2 = item.split('=');
             if (arr2[0] === 'page'){
-                num = Number(arr2[1]);
+                page = Number(arr2[1]);
             } else if (arr2[0] === 'area') {
-                val = arr2[1];
+                area = arr2[1];
             }
         });
     } else {
         var arr1 = arr[1].split('=');
 
         if (arr1[0] === 'page'){
-            num = Number(arr1[1]);
+            page = Number(arr1[1]);
         } else if (arr1[0] === 'area') {
-            val = arr1[1];
+            area = arr1[1];
         }
     }
 }
-
-console.log(num, val);
+// 頁數與區域判斷 END
 
 
 xhr.open('get', 'https://api.kcg.gov.tw/api/service/get/9c8e1450-e833-499c-8320-29b36b7ace5c', true)
@@ -43,33 +46,23 @@ xhr.send(null)
 xhr.onload = function (){
     var obj = JSON.parse(xhr.responseText);
     var data = obj.data.XML_Head.Infos.Info;
-    var filteredData = filterData(data, val);
+    var filteredData = filterData(data, area);
 
-    putData(filteredData, num);
+    putData(filteredData, page);
 
 
     // 下拉篩選行政區 START
-    var searchBox = document.querySelector('#searchBox');
-
     searchBox.addEventListener('change', function (e){
         location.href = '?area=' + this.value;
-        // var filteredData = filterData(data, this.value);
-        // num = 1;
-        // putData(filteredData, num);
     }, false);
     // 下拉篩選行政區 END
 
 
     // 熱門按鈕篩選 START
-    var hotBtn = document.querySelectorAll('.hotBtn');
-
     hotBtn.forEach(function (item){
         item.addEventListener('click', function (e){
             e.preventDefault();
             location.href = '?area=' + this.dataset.area;
-            // var filteredData = filterData(data, this.dataset.area);
-            // num = 1;
-            // putData(filteredData, num);
         }, false);
     });
     // 熱門按鈕篩選 END
@@ -78,16 +71,25 @@ xhr.onload = function (){
     // 前後頁切換 START
     prevBtn.addEventListener('click', function (e){
         e.preventDefault();
-        location.href = '?page='+(num - 1);
+        if (area){
+            location.href = '?area='+area+'&page='+(page - 1);
+        } else {
+            location.href = '?page='+(page - 1);
+        }
     }, false);
 
     nextBtn.addEventListener('click', function (e){
         e.preventDefault();
-        location.href = '?page='+(num + 1);
+        if (area){
+            location.href = '?area='+area+'&page='+(page + 1);
+        } else {
+            location.href = '?page='+(page + 1);
+        }
     }, false);
     // 前後頁切換 END
 }
 
+// 區碼轉換中文
 function zipcode(code){
     switch (code) {
         case '800':
@@ -171,23 +173,34 @@ function zipcode(code){
     }
 }
 
-function filterData(data, val) {
-    if (!val) {
+// 篩選區域資料
+function filterData(data, area) {
+    if (!area) {
         return data;
     } else {
         var filteredData = data.filter(function (item){
-            return item.Zipcode === val
+            return item.Zipcode === area
         });
     
         return filteredData;
     }
 }
 
-function putData(data, num) {
+// 資料帶入html
+function putData(data, page) {
+    // title 更換
+    if (area){
+        title.textContent = zipcode(area);
+    } else {
+        title.textContent = '全部區域';
+    }
+    // 下拉預設值 更換
+    searchBox.value = area;
+
     contentBox.innerHTML = '';
 
-    upDatePageBtn(data, num);
-    var pageData = upDatePageCard(data, num);
+    upDatePageBtn(data, page);
+    var pageData = upDatePageCard(data, page);
 
     for (var i = 0; i < pageData.length; i++) {
         var el = pageData[i];
@@ -207,18 +220,23 @@ function putData(data, num) {
     }
 }
 
-function upDatePageBtn(data, num) {
+// 更新頁數切換的按鈕
+function upDatePageBtn(data, page) {
     numBtnBox.innerHTML = '';
 
     var len = data.length / 10;
-    var start = (num >= 3) ? (num - 1 - 2) : (num - num),
+    var start = (page >= 3) ? (page - 1 - 2) : (page - page),
         end = ((start + 5) <= len) ? (start + 5) : len;
 
     for (var i = start; i < end; i++) {
         var numBtnClone = numBtn.cloneNode(true);
 
         numBtnClone.textContent = i+1;
-        numBtnClone.href = '?page='+(i+1);
+        if (area){
+            numBtnClone.href = '?area='+area+'&page='+(i+1);
+        } else {
+            numBtnClone.href = '?page='+(i+1);
+        }
 
         numBtnBox.appendChild(numBtnClone);
     }
@@ -226,7 +244,7 @@ function upDatePageBtn(data, num) {
     var numBtns = document.querySelectorAll('.pageBtn-num');
 
     numBtns.forEach(function (item){
-        if (Number(item.textContent) === num){
+        if (Number(item.textContent) === page){
             item.classList.add('active');
         }
     });
@@ -234,15 +252,16 @@ function upDatePageBtn(data, num) {
     if (len <= 1) {
         prevBtn.classList.add('disabled');
         nextBtn.classList.add('disabled');
-    } else if (num === 1) {
+    } else if (page === 1) {
         prevBtn.classList.add('disabled');
-    } else if (num >= len) {
+    } else if (page >= len) {
         nextBtn.classList.add('disabled');
     }
 }
 
-function upDatePageCard(data, num) {
-    var start = num * 10 - 10,
-        end = num * 10;
+// 顯示該頁面的資料
+function upDatePageCard(data, page) {
+    var start = page * 10 - 10,
+        end = page * 10;
     return data.slice(start, end);
 }
