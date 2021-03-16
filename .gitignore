@@ -1,9 +1,0 @@
-﻿###################
-#.gitignore       #
-###################
-
-/.vs
-/codes/.vscode/settings.json
-/codes/dist
-/codes/node_modules
-/codes/prepros.config
