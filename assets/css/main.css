@@ -302,12 +302,20 @@ ul {
     color: #559AC8;
 }
 .pageBtn-prev.disabled, .pageBtn-next.disabled, .pageBtn-num.disabled {
-    opacity: 0;
+    opacity: 0.5;
     pointer-events: none;
 }
 .pageBtn-numBox {
     display: inline-block;
+    min-width: 163px;
     margin: 0 12px;
+}
+
+.scrollTop {
+    position: fixed;
+    right: 28px;
+    bottom: 140px;
+    line-height: 0;
 }
 
 .footer {

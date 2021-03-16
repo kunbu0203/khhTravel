@@ -8,11 +8,12 @@ var numBtnBox = document.querySelector('#numBtnBox'),
     numBtn = document.querySelector('.pageBtn-num');
 var prevBtn = document.querySelector('.pageBtn-prev'),
     nextBtn = document.querySelector('.pageBtn-next');
+var scrollTop = document.querySelector('.scrollTop');
 var url = location.href,
     page = 1,
     area = '';
 
-// 頁數與區域判斷 START
+// ---------------  頁數與區域判斷 START  ---------------
 if (url.indexOf('?') != -1) {
     var arr = url.split('?');
 
@@ -37,7 +38,7 @@ if (url.indexOf('?') != -1) {
         }
     }
 }
-// 頁數與區域判斷 END
+// ---------------  頁數與區域判斷 END  ---------------
 
 
 xhr.open('get', 'https://api.kcg.gov.tw/api/service/get/9c8e1450-e833-499c-8320-29b36b7ace5c', true)
@@ -49,45 +50,57 @@ xhr.onload = function (){
     var filteredData = filterData(data, area);
 
     putData(filteredData, page);
-
-
-    // 下拉篩選行政區 START
-    searchBox.addEventListener('change', function (e){
-        location.href = '?area=' + this.value;
-    }, false);
-    // 下拉篩選行政區 END
-
-
-    // 熱門按鈕篩選 START
-    hotBtn.forEach(function (item){
-        item.addEventListener('click', function (e){
-            e.preventDefault();
-            location.href = '?area=' + this.dataset.area;
-        }, false);
-    });
-    // 熱門按鈕篩選 END
-
-
-    // 前後頁切換 START
-    prevBtn.addEventListener('click', function (e){
-        e.preventDefault();
-        if (area){
-            location.href = '?area='+area+'&page='+(page - 1);
-        } else {
-            location.href = '?page='+(page - 1);
-        }
-    }, false);
-
-    nextBtn.addEventListener('click', function (e){
-        e.preventDefault();
-        if (area){
-            location.href = '?area='+area+'&page='+(page + 1);
-        } else {
-            location.href = '?page='+(page + 1);
-        }
-    }, false);
-    // 前後頁切換 END
 }
+
+// ---------------  下拉篩選行政區 START  ---------------
+searchBox.addEventListener('change', function (e){
+    location.href = '?area=' + this.value;
+}, false);
+// ---------------  下拉篩選行政區 END  ---------------
+
+
+// ---------------  熱門按鈕篩選 START  ---------------
+hotBtn.forEach(function (item){
+    item.addEventListener('click', function (e){
+        e.preventDefault();
+        location.href = '?area=' + this.dataset.area;
+    }, false);
+});
+// ---------------  熱門按鈕篩選 END  ---------------
+
+
+// ---------------  前後頁切換 START  ---------------
+prevBtn.addEventListener('click', function (e){
+    e.preventDefault();
+    if (area){
+        location.href = '?area='+area+'&page='+(page - 1);
+    } else {
+        location.href = '?page='+(page - 1);
+    }
+}, false);
+
+nextBtn.addEventListener('click', function (e){
+    e.preventDefault();
+    if (area){
+        location.href = '?area='+area+'&page='+(page + 1);
+    } else {
+        location.href = '?page='+(page + 1);
+    }
+}, false);
+// ---------------  前後頁切換 END  ---------------
+
+
+// ---------------  scrollTop START  ---------------
+scrollTop.addEventListener('click', function (e){
+    e.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}, false);
+// ---------------  scrollTop END  ---------------
+
+
 
 // 區碼轉換中文
 function zipcode(code){
