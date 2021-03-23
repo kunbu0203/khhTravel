@@ -54,7 +54,7 @@ xhr.onload = function (){
 
 // ---------------  下拉篩選行政區 START  ---------------
 searchBox.addEventListener('change', function (e){
-    location.href = '?area=' + this.value;
+    locationHref(this.value, 1);
 }, false);
 // ---------------  下拉篩選行政區 END  ---------------
 
@@ -63,7 +63,7 @@ searchBox.addEventListener('change', function (e){
 hotBtn.forEach(function (item){
     item.addEventListener('click', function (e){
         e.preventDefault();
-        location.href = '?area=' + this.dataset.area;
+        locationHref(this.dataset.area, 1);
     }, false);
 });
 // ---------------  熱門按鈕篩選 END  ---------------
@@ -72,20 +72,12 @@ hotBtn.forEach(function (item){
 // ---------------  前後頁切換 START  ---------------
 prevBtn.addEventListener('click', function (e){
     e.preventDefault();
-    if (area){
-        location.href = '?area='+area+'&page='+(page - 1);
-    } else {
-        location.href = '?page='+(page - 1);
-    }
+    locationHref(area, (page - 1));
 }, false);
 
 nextBtn.addEventListener('click', function (e){
     e.preventDefault();
-    if (area){
-        location.href = '?area='+area+'&page='+(page + 1);
-    } else {
-        location.href = '?page='+(page + 1);
-    }
+    locationHref(area, (page + 1));
 }, false);
 // ---------------  前後頁切換 END  ---------------
 
@@ -277,4 +269,13 @@ function upDatePageCard(data, page) {
     var start = page * 10 - 10,
         end = page * 10;
     return data.slice(start, end);
+}
+
+// 網頁跳轉
+function locationHref(area, page) {
+    if (area){
+        location.href = '?area='+area+'&page='+page;
+    } else {
+        location.href = '?page='+page;
+    }
 }
