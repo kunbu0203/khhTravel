@@ -17,12 +17,12 @@ var url = location.href,
 if (url.indexOf('?') != -1) {
     var arr = url.split('?');
 
-    if (arr[1].indexOf('&') != -1){
+    if (arr[1].indexOf('&') != -1) {
         var arr1 = arr[1].split('&');
 
-        arr1.forEach(function (item){
+        arr1.forEach(function(item) {
             var arr2 = item.split('=');
-            if (arr2[0] === 'page'){
+            if (arr2[0] === 'page') {
                 page = Number(arr2[1]);
             } else if (arr2[0] === 'area') {
                 area = arr2[1];
@@ -31,7 +31,7 @@ if (url.indexOf('?') != -1) {
     } else {
         var arr1 = arr[1].split('=');
 
-        if (arr1[0] === 'page'){
+        if (arr1[0] === 'page') {
             page = Number(arr1[1]);
         } else if (arr1[0] === 'area') {
             area = arr1[1];
@@ -44,24 +44,25 @@ if (url.indexOf('?') != -1) {
 xhr.open('get', 'https://api.kcg.gov.tw/api/service/get/9c8e1450-e833-499c-8320-29b36b7ace5c', true)
 xhr.send(null)
 
-xhr.onload = function (){
+xhr.onload = function() {
     var obj = JSON.parse(xhr.responseText);
     var data = obj.data.XML_Head.Infos.Info;
     var filteredData = filterData(data, area);
+    addOption(data);
 
     putData(filteredData, page);
 }
 
 // ---------------  下拉篩選行政區 START  ---------------
-searchBox.addEventListener('change', function (e){
+searchBox.addEventListener('change', function(e) {
     locationHref(this.value, 1);
 }, false);
 // ---------------  下拉篩選行政區 END  ---------------
 
 
 // ---------------  熱門按鈕篩選 START  ---------------
-hotBtn.forEach(function (item){
-    item.addEventListener('click', function (e){
+hotBtn.forEach(function(item) {
+    item.addEventListener('click', function(e) {
         e.preventDefault();
         locationHref(this.dataset.area, 1);
     }, false);
@@ -70,12 +71,12 @@ hotBtn.forEach(function (item){
 
 
 // ---------------  前後頁切換 START  ---------------
-prevBtn.addEventListener('click', function (e){
+prevBtn.addEventListener('click', function(e) {
     e.preventDefault();
     locationHref(area, (page - 1));
 }, false);
 
-nextBtn.addEventListener('click', function (e){
+nextBtn.addEventListener('click', function(e) {
     e.preventDefault();
     locationHref(area, (page + 1));
 }, false);
@@ -83,7 +84,7 @@ nextBtn.addEventListener('click', function (e){
 
 
 // ---------------  scrollTop START  ---------------
-scrollTop.addEventListener('click', function (e){
+scrollTop.addEventListener('click', function(e) {
     e.preventDefault();
     window.scrollTo({
         top: 0,
@@ -95,7 +96,7 @@ scrollTop.addEventListener('click', function (e){
 
 
 // 區碼轉換中文
-function zipcode(code){
+function zipcode(code) {
     switch (code) {
         case '800':
             return '新興區';
@@ -183,10 +184,10 @@ function filterData(data, area) {
     if (!area) {
         return data;
     } else {
-        var filteredData = data.filter(function (item){
+        var filteredData = data.filter(function(item) {
             return item.Zipcode === area
         });
-    
+
         return filteredData;
     }
 }
@@ -194,7 +195,7 @@ function filterData(data, area) {
 // 資料帶入html
 function putData(data, page) {
     // title 更換
-    if (area){
+    if (area) {
         title.textContent = zipcode(area);
     } else {
         title.textContent = '全部區域';
@@ -210,17 +211,17 @@ function putData(data, page) {
     for (var i = 0; i < pageData.length; i++) {
         var el = pageData[i];
         var cardClone = card.cloneNode(true);
-        
+
         cardClone.querySelector('#cardImg').src = el.Picture1;
         cardClone.querySelector('#cardName').textContent = el.Name;
         cardClone.querySelector('#cardArea').textContent = zipcode(el.Zipcode);
         cardClone.querySelector('#infoTime').textContent = el.Opentime;
         cardClone.querySelector('#infoAddress').textContent = el.Add;
         cardClone.querySelector('#infoPhone').textContent = el.Tel;
-        if (!el.Ticketinfo){
+        if (!el.Ticketinfo) {
             cardClone.querySelector('#infoTag').textContent = '免費參觀';
         }
-        
+
         contentBox.appendChild(cardClone);
     }
 }
@@ -236,11 +237,11 @@ function upDatePageBtn(data, page) {
     for (var i = start; i < end; i++) {
         var numBtnClone = numBtn.cloneNode(true);
 
-        numBtnClone.textContent = i+1;
-        if (area){
-            numBtnClone.href = '?area='+area+'&page='+(i+1);
+        numBtnClone.textContent = i + 1;
+        if (area) {
+            numBtnClone.href = '?area=' + area + '&page=' + (i + 1);
         } else {
-            numBtnClone.href = '?page='+(i+1);
+            numBtnClone.href = '?page=' + (i + 1);
         }
 
         numBtnBox.appendChild(numBtnClone);
@@ -248,8 +249,8 @@ function upDatePageBtn(data, page) {
 
     var numBtns = document.querySelectorAll('.pageBtn-num');
 
-    numBtns.forEach(function (item){
-        if (Number(item.textContent) === page){
+    numBtns.forEach(function(item) {
+        if (Number(item.textContent) === page) {
             item.classList.add('active');
         }
     });
@@ -273,9 +274,31 @@ function upDatePageCard(data, page) {
 
 // 網頁跳轉
 function locationHref(area, page) {
-    if (area){
-        location.href = '?area='+area+'&page='+page;
+    if (area) {
+        location.href = '?area=' + area + '&page=' + page;
     } else {
-        location.href = '?page='+page;
+        location.href = '?page=' + page;
+    }
+}
+
+// 下拉option新增
+function addOption(data) {
+    var areaList = [];
+    for (var i = 0; data.length > i; i++) {
+        areaList.push(data[i].Zipcode);
+    }
+
+    var area = [];
+    areaList.forEach(function(value) {
+        if (area.indexOf(value) == -1) {
+            area.push(value);
+        }
+    });
+
+    for (var i = 0; area.length > i; i++) {
+        var option = document.createElement('option');
+        option.textContent = zipcode(area[i]);
+        option.value = area[i];
+        searchBox.appendChild(option);
     }
 }
